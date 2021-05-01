@@ -1,0 +1,95 @@
+{
+  "employees": [
+    {
+      "id": 1,
+      "name": "Ahsan",
+      "contactPreference": "phone",
+      "email": "ahsan@pragimtech.com",
+      "phone": "923212827700",
+      "skills": [
+        {
+          "skillName": "C#",
+          "experienceInYears": "3",
+          "proficiency": "advanced"
+        },
+        {
+          "skillName": "Java",
+          "experienceInYears": 2,
+          "proficiency": "intermediate"
+        },
+        {
+          "skillName": "Angular",
+          "experienceInYears": "1",
+          "proficiency": "beginner"
+        },
+        {
+          "skillName": "Linq",
+          "experienceInYears": "2",
+          "proficiency": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Henry",
+      "contactPreference": "phone",
+      "email": "henry@email.com",
+      "phone": "22334455",
+      "skills": [
+        {
+          "skillName": "C#",
+          "experienceInYears": 1,
+          "proficiency": "beginner"
+        },
+        {
+          "skillName": "Python",
+          "experienceInYears": 2,
+          "proficiency": "advanced"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Hammad",
+      "contactPreference": "phone",
+      "email": "hammad@dell.com",
+      "phone": "0315-2869482",
+      "skills": [
+        {
+          "skillName": "React",
+          "experienceInYears": "2",
+          "proficiency": "intermediate"
+        },
+        {
+          "skillName": "Vue",
+          "experienceInYears": "3",
+          "proficiency": "beginner"
+        },
+        {
+          "skillName": "Flutter",
+          "experienceInYears": "1",
+          "proficiency": "beginner"
+        },
+        {
+          "skillName": "Entity Framework",
+          "experienceInYears": "1",
+          "proficiency": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Sami",
+      "contactPreference": "email",
+      "email": "sami@dell.com",
+      "phone": "923212822254",
+      "skills": [
+        {
+          "skillName": "C#",
+          "experienceInYears": "3",
+          "proficiency": "advanced"
+        }
+      ]
+    }
+  ]
+}
