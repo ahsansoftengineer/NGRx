@@ -8,6 +8,7 @@ import { HttpService } from './http.service';
 export class ApiService {
   constructor(private httpService: HttpService) {}
  getAllPost(): Observable<IUser[]>{
-   return this.httpService.get('/users').pipe(map(data => data as IUser[]))
+   return this.httpService.get('/users')
+   .pipe(map(data => data as IUser[]))
  }
 }

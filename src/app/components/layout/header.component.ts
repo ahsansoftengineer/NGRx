@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-header',
+  selector: 'youtube-header',
   template: `
     <mat-toolbar color="primary" style="height:85px, padding:0px 16px">
       <div fxLayoutAlign="start center" fx-Flex="100%" fx-Hide.xs>

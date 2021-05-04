@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-youtube-layout',
+  selector: 'youtube-layout',
   template: `
-    <p>
-      youtube-layout works!
-    </p>
+   <youtube-header></youtube-header>
+   <router-outlet></router-outlet>
   `,
   styles: [
   ]

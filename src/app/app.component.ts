@@ -7,11 +7,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'Resturant';
-  public myForm: FormGroup;
+  title = 'NGRx Play List';
   ngOnInit(): void {
-    this.myForm = new FormGroup({
-      results: new FormControl(['', Validators.required]),
-    });
+
   }
 }

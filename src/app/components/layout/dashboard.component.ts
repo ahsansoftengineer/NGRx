@@ -3,8 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-dashboard',
   template: `
-   <app-header></app-header>
-   <router-outlet></router-outlet>
+   <youtube-layout></youtube-layout>
   `,
   styles: [
   ]

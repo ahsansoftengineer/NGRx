@@ -5,8 +5,9 @@ import { ApiService } from '../services/api.service';
 @Component({
   selector: 'app-user',
   template: `
-    <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center start">
-        <youtube-user-list [users]="users"></youtube-user-list>
+    <p>User Works</p>
+    <div >
+      <youtube-user-list [users]="users"></youtube-user-list>
     </div>
   `,
   styles: [],
@@ -22,6 +23,5 @@ export class UserComponent implements OnInit {
     this.apiSerice.getAllPost().subscribe((data) => {
       this.users = data;
     });
-    console.log(this.users);
   }
 }

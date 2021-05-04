@@ -4,6 +4,9 @@ export interface IUser{
   email:string;
   address: Address;
   username: string;
+  phone: string;
+  website:string;
+  company: Company
 }
 
 export interface Address{
@@ -15,4 +18,10 @@ export interface Address{
 }
 export interface Geo{
   'lat': string
+  'lng': string
+}
+export interface Company{
+  name:string;
+  catchPharase: string;
+  bs: string
 }

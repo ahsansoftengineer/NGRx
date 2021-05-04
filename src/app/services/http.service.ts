@@ -5,8 +5,8 @@ import { Observable, throwError } from 'rxjs';
 
 @Injectable()
 export class HttpService {
-  private baseUrl: 'https://jsonplaceholder.typicode.com';
-  private AUTH_TOKEN: 'auth_token';
+  public baseUrl:string = 'https://jsonplaceholder.typicode.com';
+  public AUTH_TOKEN:string = 'auth_token';
   constructor(private httpClient: HttpClient) {}
   get(url: string, params?: any) : Observable<any> {
     const data = { params };
