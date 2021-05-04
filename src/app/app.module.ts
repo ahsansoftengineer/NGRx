@@ -15,6 +15,9 @@ import { UserComponent } from './container/user.component';
 import { PostComponent } from './container/post.component';
 import { ApiService } from './services/api.service';
 import { HttpService } from './services/http.service';
+import { StoreModule } from '@ngrx/store';
+// Targeting index.ts File
+import { rootReducer } from './reducers';
 
 @NgModule({
   declarations: [
@@ -34,6 +37,8 @@ import { HttpService } from './services/http.service';
     HttpClientModule,
     MaterialModule,
     AppRoutingModule,
+    // Doesn't Required index.ts File Name
+    StoreModule.forRoot(rootReducer),
   ],
   providers: [ApiService, HttpService],
   bootstrap: [AppComponent],
