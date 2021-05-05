@@ -1,13 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { combineLatest } from 'rxjs';
-import {
-  UserListRequestAction,
-  UserListSuccessAction,
-} from '../actions/user-action';
 import { IUser } from '../models/user';
-import { getUserLoaded, getUserloading, getUsers } from '../reducers';
-import { ApiService } from '../services/api.service';
+import { YoutubeRepository } from '../services/youtube-repository';
 
 @Component({
   selector: 'app-user',
@@ -21,29 +14,17 @@ import { ApiService } from '../services/api.service';
 })
 export class UserComponent implements OnInit {
   users: IUser[];
-  constructor(private apiSerice: ApiService, private store: Store) {}
+  // Dependency Injection Principal
+  // You should not depend on something directly
+  // Component -> youtube repo -> apiService -> HttpService -> HttpClient -> API
+  constructor(private youtubeRepository: YoutubeRepository) {}
 
   ngOnInit(): void {
     this.fetchData();
   }
   fetchData() {
-    // Always use $ sign with Observables
-    const loading$ = this.store.select(getUserloading);
-    const loaded$ = this.store.select(getUserLoaded);
-    const getUserData = this.store.select(getUsers);
-
-    combineLatest([loaded$, loading$]).subscribe((data) => {
-      if (!data[0] && !data[1]) {
-        // Store Helps to Dispatch different Actions
-        this.store.dispatch(new UserListRequestAction());
-        this.apiSerice.getAllPost().subscribe((res) => {
-          this.store.dispatch(new UserListSuccessAction({ data: res }));
-        });
-      }
-    });
-    // getUsers is Comming from Index File Master File of Users
-    getUserData.subscribe((data) => {
-      console.log(data);
+    const userData$ = this.youtubeRepository.getUserList()[1];
+    userData$.subscribe((data) => {
       this.users = data;
     });
   }

@@ -18,6 +18,7 @@ import { HttpService } from './services/http.service';
 import { StoreModule } from '@ngrx/store';
 // Targeting index.ts File
 import { rootReducer } from './reducers';
+import { YoutubeRepository } from './services/youtube-repository';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import { rootReducer } from './reducers';
     // Doesn't Required index.ts File Name
     StoreModule.forRoot(rootReducer),
   ],
-  providers: [ApiService, HttpService],
+  providers: [ApiService, HttpService, YoutubeRepository],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
