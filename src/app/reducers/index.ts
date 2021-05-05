@@ -16,3 +16,4 @@
     export const getUserloading = createSelector(getUserState, fromUser.getLoading)
     export const getUserLoaded = createSelector(getUserState, fromUser.getLoaded)
     export const getUsers = createSelector(getUserState, fromUser.getUsers)
+    export const getUserError = createSelector(getUserState, fromUser.getUserError)
