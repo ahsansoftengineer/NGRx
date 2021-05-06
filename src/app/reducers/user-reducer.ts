@@ -17,7 +17,6 @@ export interface UserReducerState {
   error: boolean;
   entities: { [id: number]: any };
   ids: number[];
-  // users: IUser[];
 }
 
 const initialState: UserReducerState = {
@@ -26,7 +25,6 @@ const initialState: UserReducerState = {
   error: false,
   entities: {},
   ids: [],
-  // users: [],
 };
 export function UserReducer(
   state = initialState,
@@ -43,33 +41,19 @@ export function UserReducer(
       const newEntities = { ...state.entities, ...entity };
       const newIds = StoreUtility.filterDuplicate([...state.ids, user.id]);
       return { ...state, ...{ entities: newEntities, ids: newIds } };
-      // const newUsers: IUser[] = state.users.concat(action.payload.data);
-      // return { ...state, ...{ users: newUsers } };
     }
     case USER_UPDATE: {
       const user: IUser = action.payload.data;
       const entity = { [user.id]: user };
       const updatedEntities = { ...state.entities, ...entity };
       return { ...state, ...{ entities: updatedEntities } };
-
-      // const users: IUser[] = state.users.filter(
-      //   (data) => data.id !== action.payload.id
-      // );
-      // const newUsers: IUser[] = users.concat(action.payload.data);
-      // return { ...state, ...{ users: newUsers } };
     }
     case USER_DELETE: {
       const id = action.payload.id;
       const newIds = state.ids.filter((elem) => elem !== id);
       const newEntities = StoreUtility.removeKey(state.entities, id);
       return { ...state, ...{ entities: newEntities, ids: newIds } };
-
-      // const users: IUser[] = state.users.filter(
-      //   (data) => data.id !== action.payload.id
-      // );
-      // return { ...state, ...{ users } };
     }
-
     case USER_LIST_ERROR: {
       return { ...state, error: true, loading: false };
     }
@@ -87,15 +71,6 @@ export function UserReducer(
         ids: newIds,
       };
       return { ...state, ...userReducerState };
-
-      // const updatedUsers = state.users.concat(action.payload.data);
-      // return {
-      //   ...state,
-      //   loading: false,
-      //   loaded: true,
-      //   error: false,
-      //   users: updatedUsers,
-      // };
     }
     default: {
       return state;
@@ -107,10 +82,6 @@ export function UserReducer(
 export const getLoading = (state: UserReducerState) => state.loading;
 export const getLoaded = (state: UserReducerState) => state.loaded;
 const getEntities = (state: UserReducerState) => state.entities;
-
 export const getUsers = createSelector(getEntities, 
   (entities) => StoreUtility.unNormalized(entities));
-// export const getUsers = createSelector(getEntities, getIds, 
-//   (entities, ids) => ids.map(id => entities[id]));
   export const getUserError = (state: UserReducerState) => state.error;
-// export const getUsers = (state: UserReducerState) => state.users;
