@@ -1,14 +1,18 @@
-import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {Component} from '@angular/core';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  selector: 'youtube-root',
+  template: `
+    <router-outlet></router-outlet>
+  `,
+  styles: [`
+  `]
 })
 export class AppComponent {
-  title = 'NGRx Play List';
-  ngOnInit(): void {
-
+  constructor() {
   }
 }
+
+// my component are dependent on api service
+// api service -> http service
+// http service -> http client

@@ -1,21 +1,14 @@
-import { createSelector } from '@ngrx/store';
-import { Action } from '../actions';
-import {
-  USER_ADD,
-  USER_DELETE,
-  USER_LIST_ERROR,
-  USER_LIST_REQUEST,
-  USER_LIST_SUCCESS,
-  USER_UPDATE,
-} from '../actions/user-action';
-import { IUser } from '../models/user';
-import { StoreUtility } from '../utils/store-utility';
+import {User} from '../models/user';
+import {Action} from '../actions';
+import {USER_ADD, USER_DELETE, USER_LIST_ERROR, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_UPDATE} from '../actions/user-action';
+import {StoreUtility} from '../utils/store-utility';
+import {createSelector} from '@ngrx/store';
 
 export interface UserReducerState {
   loading: boolean;
   loaded: boolean;
   error: boolean;
-  entities: { [id: number]: any };
+  entities: { [id: number]: User };
   ids: number[];
 }
 
@@ -24,53 +17,50 @@ const initialState: UserReducerState = {
   loading: false,
   error: false,
   entities: {},
-  ids: [],
+  ids: []
 };
-export function UserReducer(
-  state = initialState,
-  action: Action
-): UserReducerState {
+
+export function UserReducer(state = initialState, action: Action): UserReducerState {
   switch (action.type) {
     case USER_LIST_REQUEST: {
-      return { ...state, loading: true };
-    }
-    // Collected All User Except That needs to be Modified
-    case USER_ADD: {
-      const user: IUser = action.payload.data;
-      const entity = { [user.id]: user };
-      const newEntities = { ...state.entities, ...entity };
-      const newIds = StoreUtility.filterDuplicate([...state.ids, user.id]);
-      return { ...state, ...{ entities: newEntities, ids: newIds } };
-    }
-    case USER_UPDATE: {
-      const user: IUser = action.payload.data;
-      const entity = { [user.id]: user };
-      const updatedEntities = { ...state.entities, ...entity };
-      return { ...state, ...{ entities: updatedEntities } };
+      return {...state, loading: true};
     }
     case USER_DELETE: {
       const id = action.payload.id;
-      const newIds = state.ids.filter((elem) => elem !== id);
+      const newIds = state.ids.filter(elem => elem !== id);
       const newEntities = StoreUtility.removeKey(state.entities, id);
-      return { ...state, ...{ entities: newEntities, ids: newIds } };
+      return {...state, ...{entities: newEntities, ids: newIds}};
+    }
+    case USER_UPDATE: {
+      const user = action.payload.data;
+      const entity = {[user.id]: user};
+      const updatedEntities = {...state.entities, ...entity};
+      return {...state, ...{entities: updatedEntities}};
+    }
+    case USER_ADD: {
+      const user = action.payload.data;
+      const entity = {[user.id]: user};
+      const newEntities = {...state.entities, ...entity};
+      const newIds = StoreUtility.filterDuplicateIds([...state.ids, user.id]);
+      return {...state, ...{entities: newEntities, ids: newIds}};
+
     }
     case USER_LIST_ERROR: {
-      return { ...state, error: true, loading: false };
+      return {...state, error: true, loading: false};
     }
     case USER_LIST_SUCCESS: {
-      const users: IUser[] = action.payload.data;
+      const users = action.payload.data;
       const obj = StoreUtility.normalize(users);
-      const newEntities = { ...state.entities, ...obj };
-      const ids = users.map((user) => user.id);
-      const newIds = StoreUtility.filterDuplicate([...state.ids, ...ids]);
-      const userReducerState: UserReducerState = {
-        loaded: true,
-        loading: false,
-        error: false,
-        entities: newEntities,
-        ids: newIds,
+      const newEntities = {...state.entities, ...obj};
+      const ids = users.map(user => user.id);
+      const newIds = StoreUtility.filterDuplicateIds([...state.ids, ...ids]);
+      return {
+        ...state, ...{
+          loaded: true,
+          loading: false, error: false,
+          entities: newEntities, ids: newIds
+        }
       };
-      return { ...state, ...userReducerState };
     }
     default: {
       return state;
@@ -78,10 +68,12 @@ export function UserReducer(
   }
 }
 
-// Selectors for Reducers
+// selectors
 export const getLoading = (state: UserReducerState) => state.loading;
 export const getLoaded = (state: UserReducerState) => state.loaded;
-const getEntities = (state: UserReducerState) => state.entities;
-export const getUsers = createSelector(getEntities, 
+export const getEntities = (state: UserReducerState) => state.entities;
+export const getIds = (state: UserReducerState) => state.ids;
+export const getUsers = createSelector(getEntities,
   (entities) => StoreUtility.unNormalized(entities));
-  export const getUserError = (state: UserReducerState) => state.error;
+export const getError = (state: UserReducerState) => state.error;
+
