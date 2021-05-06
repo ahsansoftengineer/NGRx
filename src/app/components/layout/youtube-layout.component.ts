@@ -1,19 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'youtube-layout',
   template: `
-   <youtube-header></youtube-header>
-   <router-outlet></router-outlet>
+    <youtube-header></youtube-header>
+    <router-outlet></router-outlet>
   `,
-  styles: [
-  ]
+  styles: [``]
 })
-export class YoutubeLayoutComponent implements OnInit {
 
-  constructor() { }
+export class LayoutComponent {
 
-  ngOnInit(): void {
+  constructor() {
   }
-
 }

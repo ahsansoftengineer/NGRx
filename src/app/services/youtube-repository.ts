@@ -1,76 +1,118 @@
-import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { combineLatest, Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {
+  getPostError,
+  getPostLoaded,
+  getPostLoading,
+  getPosts,
+  getUserById,
+  getUserError,
+  getUserLoaded,
+  getUserLoading,
+  getUsers,
+  RootReducerState
+} from '../reducers';
+import {combineLatest, Observable} from 'rxjs';
 import {
   UserAddAction,
   UserDeleteAction,
   UserListErrorAction,
   UserListRequestAction,
   UserListSuccessAction,
-  UserUpdateAction,
+  UserUpdateAction
 } from '../actions/user-action';
-import { IUser } from '../models/user';
+import {ApiService} from './api.service';
+import {User} from '../models/user';
+import {take} from 'rxjs/operators';
 import {
-  getUserLoaded,
-  getUserloading,
-  getUsers,
-  RootReducerState,
-  getUserError,
-} from '../reducers';
-import { ApiService } from './api.service';
+  CommentAddAction, CommentDeleteAction,
+  CommentUpdateAction,
+  PostListErrorAction,
+  PostListRequestAction,
+  PostListSuccessAction
+} from '../actions/post-action';
+import {Post} from '../models/post';
+import {Comment} from '../models/post';
 
-// This file is created under rule Single Responsibility Principal Comming for (SOAP)
 @Injectable()
 export class YoutubeRepository {
-  constructor(
-    private store: Store<RootReducerState>,
-    private apiService: ApiService
-  ) {}
-  // using force for Pull to Referesh Functionality.
-  getUserList(
-    force = false
-  ): [Observable<boolean>, Observable<IUser[]>, Observable<boolean>] {
-    // Always use $ sign with Observables
-    const loading$ = this.store.select(getUserloading);
+  constructor(private store: Store<RootReducerState>, private apiService: ApiService) {
+  }
+
+  getUserList(force = false): [Observable<boolean>, Observable<User[]>, Observable<boolean>] {
+    const loading$ = this.store.select(getUserLoading);
     const loaded$ = this.store.select(getUserLoaded);
     const getUserData$ = this.store.select(getUsers);
     const getError$ = this.store.select(getUserError);
-
-    // If data Availaible then Reuse it Other wise Fetch it from API
-    combineLatest([loaded$, loading$])
-      .pipe(take(1))
-      .subscribe((data) => {
-        // !data[0] & !data[1] means if not Loading and Loaded then do the following Action
-        if ((!data[0] && !data[1]) || force) {
-          // Store Helps to Dispatch different Actions
-          this.store.dispatch(new UserListRequestAction());
-          this.apiService.getAllPost().subscribe(
-            (res) => {
-              this.store.dispatch(new UserListSuccessAction({ data: res }));
-            },
-            (error) => {
-              this.store.dispatch(new UserListErrorAction());
-            }
-          );
-        }
-      });
+    combineLatest([loaded$, loading$]).pipe(take(1)).subscribe((data) => {
+      if ((!data[0] && !data[1]) || force) {
+        this.store.dispatch(new UserListRequestAction());
+        this.apiService.getAllUser().subscribe(res => {
+          this.store.dispatch(new UserListSuccessAction({data: res}));
+        }, error => {
+          this.store.dispatch(new UserListErrorAction());
+        });
+      }
+    });
     return [loading$, getUserData$, getError$];
   }
-  addUser(data: IUser) {
-    // First call API to add a user and then update it in store
-    this.store.dispatch(new UserAddAction({ data }));
-  }
-  updateUser(data: IUser) {
-    // First Send Details to Actual API
-    this.store.dispatch(new UserUpdateAction({ data }));
-  }
+
   deleteUser(id: number) {
-    // First we will call Actual API
-    this.store.dispatch(new UserDeleteAction({ id }));
+    // first we will call actual delete api
+    this.store.dispatch(new UserDeleteAction({id}));
+  }
+
+  updateUser(data: User) {
+// first send details to actual api
+    this.store.dispatch(new UserUpdateAction({data}));
+  }
+
+  addUser(data: User) {
+    // first call api to add a user and then update it in store
+    this.store.dispatch(new UserAddAction({data}));
+  }
+
+  getUserById(id: number, force = false) {
+    // get user from reducer if exist otherwise from api
+    const user$ = this.store.select(state => getUserById(state, id));
+    user$.pipe(take(1)).subscribe(res => {
+      if (force || !res) {
+        return this.apiService.getUser(id).subscribe(data => {
+          this.store.dispatch(new UserAddAction({data}));
+        });
+      }
+      return res;
+    });
+    return user$;
+  }
+
+  getAllPost(force = false): [Observable<boolean>, Observable<Post[]>, Observable<boolean>] {
+    const post$ = this.store.select(getPosts);
+    const loaded$ = this.store.select(getPostLoading);
+    const loading$ = this.store.select(getPostLoaded);
+    const getError$ = this.store.select(getPostError);
+    combineLatest([loaded$, loading$]).pipe(take(1)).subscribe((data) => {
+      if ((!data[0] && !data[1]) || force) {
+        this.store.dispatch(new PostListRequestAction());
+        this.apiService.getAllPost().subscribe(res => {
+          this.store.dispatch(new PostListSuccessAction({data: res}));
+        }, error => {
+          this.store.dispatch(new PostListErrorAction());
+        });
+      }
+    });
+    return [loading$, post$, getError$];
+  }
+
+  addComment(comment: Comment, postId: number) {
+    this.store.dispatch(new CommentAddAction({data: comment, postId}));
+  }
+
+  updateComment(comment: Comment, postId: number) {
+    this.store.dispatch(new CommentUpdateAction({data: comment, postId}));
+  }
+
+  deleteComment(commentId: number, postId: number) {
+    this.store.dispatch(new CommentDeleteAction({id: commentId, postId}));
   }
 }
-
-// reducer -> it contains a state (global state)
-// it will take an action -> it will return a new state
-// action -> it will contain a payload and a type

@@ -1,18 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'youtube-dashboard',
   template: `
-   <youtube-layout></youtube-layout>
+    <youtube-layout></youtube-layout>
   `,
-  styles: [
-  ]
+  styles: [``]
 })
-export class DashboardComponent implements OnInit {
 
-  constructor() { }
+export class DashboardComponent {
 
-  ngOnInit(): void {
+  constructor() {
   }
-
 }
