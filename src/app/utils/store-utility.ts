@@ -7,7 +7,7 @@ export class StoreUtility {
   }
     // entities: {id: {}} -> normalized format
   // [{1: {}},{2: {}}, ...]
-  static unNormalized(entities: {id: any}){
+  static unNormalized(entities: {[id: number]: any}){
     if(!entities){
       return []
     }else {

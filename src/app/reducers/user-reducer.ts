@@ -107,8 +107,10 @@ export function UserReducer(
 export const getLoading = (state: UserReducerState) => state.loading;
 export const getLoaded = (state: UserReducerState) => state.loaded;
 const getEntities = (state: UserReducerState) => state.entities;
-const getIds = (state: UserReducerState) => state.ids;
-export const getUsers = createSelector(getEntities, getIds, 
-  (entities, ids) => ids.map(id => entities[id]));
+
+export const getUsers = createSelector(getEntities, 
+  (entities) => StoreUtility.unNormalized(entities));
+// export const getUsers = createSelector(getEntities, getIds, 
+//   (entities, ids) => ids.map(id => entities[id]));
   export const getUserError = (state: UserReducerState) => state.error;
 // export const getUsers = (state: UserReducerState) => state.users;
