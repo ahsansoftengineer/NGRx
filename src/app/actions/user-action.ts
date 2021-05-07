@@ -22,7 +22,8 @@ export class UserUpdateAction {
   readonly type = USER_UPDATE;
 
   constructor(public payload?: { data: User }) {
-  }
+  debugger
+}
 }
 
 export class UserAddAction {

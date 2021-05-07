@@ -11,6 +11,7 @@ export class ApiService {
   }
 
   getAllUser(): Observable<User[]> {
+    debugger
     return this.httpService.get('/users')
       .pipe(map(data => data as User[]));
   }
@@ -20,6 +21,7 @@ export class ApiService {
   }
 
   getAllPost(): Observable<Post[]> {
+    debugger
     const data: Post[] = [{
       title: 'post 1', id: 1,
       comments: [{id: 11, description: 'comment 1'}, {id: 13, description: 'comment 2'}]

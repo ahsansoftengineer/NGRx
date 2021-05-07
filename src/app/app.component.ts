@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 
 @Component({
-  selector: 'youtube-root',
+  selector: 'app-root',
   template: `
     <router-outlet></router-outlet>
   `,

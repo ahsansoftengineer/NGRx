@@ -8,8 +8,8 @@ import {Router} from '@angular/router';
 @Component({
   selector: 'youtube-user-card',
   template: `
-    <mat-card (click)="open()" style="margin-bottom: 30px;" fxLayout="column" fxLayoutGap="30px" fxLayoutAlign="start stretch">
-      <mat-card-title>{{this.user.name}}</mat-card-title>
+    <mat-card  style="margin-bottom: 30px;" fxLayout="column" fxLayoutGap="30px" fxLayoutAlign="start stretch">
+      <mat-card-title (click)="open()">{{this.user.name}}</mat-card-title>
       <mat-card-content>{{this.user.email}}</mat-card-content>
       <button (click)="delete()" mat-raised-button color="warn">Delete</button>
       <button (click)="update()" mat-raised-button color="primary">Update</button>

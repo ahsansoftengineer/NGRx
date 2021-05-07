@@ -15,6 +15,7 @@ export const rootReducer: ActionReducerMap<RootReducerState> = {
 
 export const getUserState = (state: RootReducerState) => state.users;
 
+// User Selectors for Root
 export const getUserLoaded = createSelector(getUserState, fromUser.getLoaded);
 export const getUserLoading = createSelector(getUserState, fromUser.getLoading);
 export const getUserEntities = createSelector(getUserState, fromUser.getEntities);
@@ -28,6 +29,7 @@ export const getUserById = (state: RootReducerState, id: number) => {
 
 export const getPostState = (state: RootReducerState) => state.post;
 
+// Post Selector For Root
 export const getPostLoaded = createSelector(getPostState, fromPost.getLoaded);
 export const getPostLoading = createSelector(getPostState, fromPost.getLoading);
 export const getPostEntities = createSelector(getPostState, fromPost.getEntities);
